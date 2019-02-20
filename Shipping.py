@@ -1,3 +1,6 @@
+from flask import Flask, request, render_template
+app = Flask(__name__)
+
 def ground_shipping(weight):
   if weight <= 2:
     ground_cost = weight * 1.5 + 20
@@ -31,12 +34,18 @@ def shipping(weight):
     drone_cost = drone_shipping(weight)
     premium_shipping = 125
     if ground_cost > drone_cost and drone_cost < premium_shipping:
-        print("The best way is shipping by drone! Cost:", drone_cost)
+        return (f"The best way is shipping by drone! Cost: %s" % drone_cost)
     elif drone_cost > ground_cost and ground_cost < premium_shipping:
-        print("The best way is ground shipping! Cost:", ground_cost)
+        return (f"The best way is ground shipping! Cost: %s" % ground_cost)
     else:
-        print("The best option is premium shipping. Cost:", premium_shipping)
+        return (f"The best option is premium shipping. Cost: %s" % premium_shipping)
 
-print("This program will choose the best shipping option for you!")
-weight=input("What is weight of the package?")
-shipping(float(weight))
+@app.route("/", methods=["GET", "POST"])
+def calculator():
+    if request.method == "GET":
+        return render_template("index.html")
+    else:
+        weight = float(request.form["weight"])
+        return render_template("index.html", response=shipping(weight))
+
+app.run()

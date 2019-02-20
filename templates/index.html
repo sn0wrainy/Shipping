@@ -1,0 +1,16 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+</head>
+    <body>
+    <h1>Shipping Calculator</h1>
+    <h2>The easiest way to calculate the cost of shipping your package :)</h2>
+    <div class="question">
+        <form action="" method="POST">
+            <label>What is the weight of your package? <input type="number" step="0.01" min="0" name="weight"></label><br>
+        <input type="submit" value="Check the price">
+        </form>
+        </div>
+    <p class="answer">{{ response }}</p>
+    </body>
+</html>
